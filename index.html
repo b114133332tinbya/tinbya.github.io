@@ -32,7 +32,7 @@
     #question-text {
       font-weight: 600;
       margin-bottom: 12px;
-      white-space: pre-line; /* 讓 \n 換行 */
+      white-space: pre-line;
     }
     .option {
       margin: 6px 0;
@@ -85,7 +85,7 @@
 </head>
 <body>
   <h1>Time Swamp – Tense Quiz</h1>
-  <p class="subtitle">每次掃 QR / 重新進入，都會拿到一題不同的「時態」題目。</p>
+  <p class="subtitle">每次掃 QR / 重新進入，都會拿到一題不同的「時態」題目。（共90題：現在式30題 + 過去式60題）</p>
 
   <div id="status"></div>
 
@@ -104,109 +104,682 @@
   <button id="check-btn">Check Answer</button>
 
   <script>
-    // ===== 題庫設定：10 題，對應你給的 10 個題型 =====
-    // type: "mcq" = 選擇題, "input" = 填空 / 改寫 / 單字題
+    // ===== 題庫設定：90 題（現在式30題 + 過去式60題） =====
     const questions = [
-      // 1. Present Simple（判斷題）
+      // ===== 現在式題目：1-30 =====
+      // 1
       {
         type: "mcq",
-        text:
-"The swamp spirits ___ messages to players who step on the glowing tiles.\n(Choose the best form.)",
-        options: ["send", "sends", "are sending"],
+        text: "The swamp spirits ___ warnings when travelers step on the noisy roots.\n (Choose the best form.)",
+        options: ["give", "gives", "are giving"],
         correctIndex: 0,
-        explanation: "主詞 spirits 為複數，所以用原形動詞 send（第三人稱複數）。"
+        explanation: "主詞 spirits 是複數 → 動詞要用原形 give。句子描述的是固定、習慣性的反應，屬於現在簡單式。"
       },
-      // 2. Present Continuous（情境圖題 → 選答案）
+      // 2
       {
         type: "mcq",
-        text:
-"You are walking in the swamp and see this:\n\"The wooden paths are shaking and the Time Tree is losing its light.\"\nWhich sentence best describes what is happening right now?",
-        options: [
-          "The swamp shakes every night.",
-          "The wooden paths are shaking at this moment.",
-          "The tree lost its light yesterday."
-        ],
-        correctIndex: 1,
-        explanation: "題目強調『現在正在發生』，所以用現在進行式 are shaking at this moment。"
+        text: "The Time Tree usually ___ bright blue light at midnight.\n (Choose the best form.)",
+        options: ["shines", "shine", "is shining"],
+        correctIndex: 0,
+        explanation: "The Time Tree 是單數，usually 表示習慣動作，用現在簡單式 → shines。"
       },
-      // 3. Present Perfect（閱讀理解）
+      // 3
       {
         type: "mcq",
-        text:
-"Reading:\n\"The guardians have crossed five dangerous zones, but they still haven’t reached the Magic Fruit.\nThe spirits have warned them several times, yet the players keep moving deeper into the forest.\"\nQuestion: What does \"haven’t reached\" show?",
-        options: [
-          "They reached the fruit long ago.",
-          "They are now holding the fruit.",
-          "They still haven't reached the fruit up to now."
-        ],
-        correctIndex: 2,
-        explanation: "現在完成式 haven't reached 表示到現在為止『還沒有到達』，所以是 C。"
+        text: "In the Swamp Forest, the fog ___ new paths every morning.\n (Choose the best form.)",
+        options: ["creates", "create", "is creating"],
+        correctIndex: 0,
+        explanation: "every morning 表示習慣性動作；fog 為不可數單數 → creates。"
       },
-      // 4. Present Perfect Continuous（情境填空）
+      // 4
       {
         type: "input",
-        text:
-"The swamp fog ___ (rise) for hours, and now the paths are almost invisible.\nFill in the correct verb form:",
+        text: "Every guardian ___ (check) the Time fruit before sunrise.",
+        answer: "checks",
+        explanation: "Every guardian 為單數 → 現在簡單式要加 -s（checks）。"
+      },
+      // 5
+      {
+        type: "input",
+        text: "The swamp fog often ___ (hide) the safe bridges.",
+        answer: "hides",
+        explanation: "主詞 fog 為單數，搭配頻率副詞 often → 現在簡單式 hides。"
+      },
+      // 6
+      {
+        type: "input",
+        text: "The wooden paths ___ (change) direction whenever the moon is full.",
+        answer: "change",
+        explanation: "paths 為複數，whenever 表習慣性情境 → 現在簡單式，use change。"
+      },
+      // 7
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits gives clues to players who are lost.\"\nWhat is the correct form of \"gives\"?",
+        answer: "give",
+        explanation: "主詞 spirits 為複數，應用原形動詞 give。"
+      },
+      // 8
+      {
+        type: "input",
+        text: "Error spotting:\n\"The Swamp Forest change shape every night.\"\nWhat is the correct form of \"change\"?",
+        answer: "changes",
+        explanation: "The Swamp Forest 當作單一單位 → 單數主詞，需用 changes。"
+      },
+      // 9
+      {
+        type: "mcq",
+        text: "The swamp fog ___ thicker right now.\n (Choose the best form.)",
+        options: ["is becoming", "becomes", "become"],
+        correctIndex: 0,
+        explanation: "right now → 現在進行式（is becoming）。"
+      },
+      // 10
+      {
+        type: "mcq",
+        text: "The glowing tiles ___ to guide the travelers at the moment.\n (Choose the best form.)",
+        options: ["light", "are lighting", "lights"],
+        correctIndex: 1,
+        explanation: "at the moment 表示此刻 → 現在進行式 are lighting，且 tiles 為複數。"
+      },
+      // 11
+      {
+        type: "mcq",
+        text: "Listen! The spirits ___ from the deep swamp.\n (Choose the best form.)",
+        options: ["sings", "are singing", "sing"],
+        correctIndex: 1,
+        explanation: "Listen! 表示注意「正在發生的事」→ are singing（現在進行式）。"
+      },
+      // 12
+      {
+        type: "input",
+        text: "The Time Tree ___ (lose) its light right now.",
+        answer: "is losing",
+        explanation: "right now → 現在進行式，單數主詞 → is losing。"
+      },
+      // 13
+      {
+        type: "input",
+        text: "The wooden bridges ___ (shake) because a thief is approaching.",
+        answer: "are shaking",
+        explanation: "因為表示此刻正在搖晃 → 現在進行式，bridges 為複數 → are shaking。"
+      },
+      // 14
+      {
+        type: "input",
+        text: "Look! The swamp water ___ (move) backward.",
+        answer: "is moving",
+        explanation: "Look! 常用來引出正在發生的事 → 現在進行式 is moving（water 當單數）。"
+      },
+      // 15
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog is rise around the Time fruit.\"\nWhat is the correct form to replace \"is rise\"?",
+        answer: "is rising",
+        explanation: "現在進行式需 be + V-ing，正確為 is rising。"
+      },
+      // 16
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits are whispers to each other.\"\nWhat is the correct form to replace \"are whispers\"?",
+        answer: "are whispering",
+        explanation: "be + V-ing 結構 → are whispering。"
+      },
+      // 17
+      {
+        type: "mcq",
+        text: "The swamp spirits ___ many travelers this week.\n (Choose the best form.)",
+        options: ["have guided", "guided", "are guiding"],
+        correctIndex: 0,
+        explanation: "this week（尚未結束）→ 現在完成式：have guided。"
+      },
+      // 18
+      {
+        type: "mcq",
+        text: "The fog ___ the bridges three times today.\n (Choose the best form.)",
+        options: ["has covered", "covered", "is covering"],
+        correctIndex: 0,
+        explanation: "today（到目前為止） + 次數 → 現在完成式 has covered。"
+      },
+      // 19
+      {
+        type: "input",
+        text: "The Time Fruit ___ (lose) some of its power recently.",
+        answer: "has lost",
+        explanation: "recently → 常與現在完成式連用，單數主詞 → has lost（PP）。"
+      },
+      // 20
+      {
+        type: "input",
+        text: "Several wooden paths ___ (appear) since sunset.",
+        answer: "have appeared",
+        explanation: "since sunset → 現在完成式（從日落到現在），複數主詞 → have appeared。"
+      },
+      // 21
+      {
+        type: "input",
+        text: "The swamp guardians ___ (not / finish) their patrol yet.",
+        answer: "have not finished",
+        explanation: "yet 常用於現在完成式否定，複數主詞 → have not finished。"
+      },
+      // 22
+      {
+        type: "input",
+        text: "Error spotting:\n\"The bridge has fall into the swamp.\"\nWhat is the correct form of \"fall\"?",
+        answer: "fallen",
+        explanation: "現在完成式需用過去分詞（has + PP）→ fallen。"
+      },
+      // 23
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits have appear near the Time Tree.\"\nWhat is the correct form of \"appear\"?",
+        answer: "appeared",
+        explanation: "have + 過去分詞 → have appeared。"
+      },
+      // 24
+      {
+        type: "mcq",
+        text: "The glowing swamp fog ___ for hours.\n (Choose the best form.)",
+        options: ["has been moving", "moved", "is move"],
+        correctIndex: 0,
+        explanation: "for hours → 持續一段時間 → 現在完成進行式 has been moving。"
+      },
+      // 25
+      {
+        type: "mcq",
+        text: "The wooden paths ___ for days, making it hard to cross the swamp.\n (Choose the best form.)",
+        options: ["have been shifting", "shift", "are shifted"],
+        correctIndex: 0,
+        explanation: "for days → 從過去到現在的長時間動作 → have been shifting。"
+      },
+      // 26
+      {
+        type: "input",
+        text: "The swamp water ___ (rise) for a long time, so the lower bridges are gone.",
         answer: "has been rising",
-        explanation: "for hours + 現在仍有影響，表示『到現在持續了一段時間』，用現在完成進行式 has been rising。"
+        explanation: "for a long time → 完成進行式，單數主詞 → has been rising。"
       },
-      // 5. Past Simple（改寫句）
+      // 27
       {
         type: "input",
-        text:
-"Rewrite the sentence in the past simple:\nOriginal: The guardians see a whirlpool beside the broken log.",
-        answer: "The guardians saw a whirlpool beside the broken log.",
-        explanation: "see 的過去式是 saw，整句改為過去簡單式：The guardians saw a whirlpool beside the broken log."
+        text: "The guardians ___ (search) for the thief since dawn.",
+        answer: "have been searching",
+        explanation: "since dawn → 完成進行式（從過去持續到現在），複數主詞 → have been searching。"
       },
-      // 6. Past Continuous（推論題）
+      // 28
+      {
+        type: "input",
+        text: "The Time Tree ___ (glow) less and less because it is losing power.",
+        answer: "has been glowing",
+        explanation: "描述最近逐漸變弱 → 完成進行式最自然，單數主詞 → has been glowing。"
+      },
+      // 29
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog has been rise all morning.\"\nWhat is the correct form to replace \"rise\"?",
+        answer: "rising",
+        explanation: "完成進行式結構為 has been + V-ing → rising（整句應為 has been rising）。"
+      },
+      // 30
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits have been whisper to the Time fruit.\"\nWhat is the correct form to replace \"whisper\"?",
+        answer: "whispering",
+        explanation: "完成進行式需用 V-ing → whispering（整句應為 have been whispering）。"
+      },
+      
+      // ===== 過去簡單式 (Past Simple) 題目：31-38 =====
+      // 31
       {
         type: "mcq",
-        text:
-"Reading:\n\"While the players were building a new road tile, a crocodile suddenly appeared.\"\nQuestion: What were the players doing when the crocodile appeared?",
-        options: [
-          "They built the road earlier.",
-          "They were building a road tile.",
-          "They will build the road later."
-        ],
+        text: "Yesterday, the swamp spirits ___ a warning to the travelers.\n (Choose the best form.)",
+        options: ["gave", "give", "giving"],
+        correctIndex: 0,
+        explanation: "Yesterday 是典型的過去時間標記 → 用過去簡單式。give 的過去式是 gave。"
+      },
+      // 32
+      {
+        type: "mcq",
+        text: "The Time Tree suddenly ___ all its lights last night.\n (Choose the best form.)",
+        options: ["lose", "lost", "loses"],
         correctIndex: 1,
-        explanation: "while + 過去進行式 were building，表示當鱷魚出現時，他們『正在鋪路』。"
+        explanation: "last night 表示昨晚，是完成的過去時間 → 用 Past Simple。lose → lost。"
       },
-      // 7. Past Perfect（錯誤偵測 → 單字修正）
-      {
-        type: "input",
-        text:
-"Error spotting:\n\"Before the spirits arrived, the swamp had already change its shape.\"\nWhat is the correct form of \"change\"?",
-        answer: "changed",
-        explanation: "過去完成式 had + p.p.，所以 change 要改為過去分詞 changed。"
-      },
-      // 8. Past Perfect Continuous（高難度閱讀 + 填空）
-      {
-        type: "input",
-        text:
-"Reading:\n\"The Time Tree had been glowing for centuries before the swamp began to collapse.\"\nFill in the blank:\nThe Time Tree ___ (glow) for a long time before the collapse started.",
-        answer: "had been glowing",
-        explanation: "for a long time + before + 過去動作，表示『在那之前已經持續一段時間』，用過去完成進行式 had been glowing。"
-      },
-      // 9. Future Simple（條件推論）
-      {
-        type: "input",
-        text:
-"If you step on a cursed tile, the spirits ___ (remove) one of your road pieces.\nFill in the correct verb form:",
-        answer: "will remove",
-        explanation: "第一類條件句：If + 現在簡單式（step），主句用未來簡單式 will remove。"
-      },
-      // 10. Future Perfect / Future Continuous（理解題）
+      // 33
       {
         type: "mcq",
-        text:
-"Reading:\n\"By the time you reach the Time Tree, the other players will have built more than ten road tiles.\"\nWhich sentence is TRUE?",
-        options: [
-          "The players built the tiles long ago.",
-          "The players are building tiles right now.",
-          "The players will have completed more than ten tiles before you arrive."
-        ],
-        correctIndex: 2,
-        explanation: "will have built 是未來完成式，表示『在你到達之前就已經完成超過十塊路』，所以 C 正確。"
+        text: "During the storm, the wooden bridge ___ into the deep swamp.\n (Choose the best form.)",
+        options: ["falls", "fell", "falling"],
+        correctIndex: 1,
+        explanation: "整句敘述「暴風雨發生時，橋掉下去」這個一次性事件 → 用過去簡單式。fall → fell。"
+      },
+      // 34
+      {
+        type: "input",
+        text: "The fog suddenly ___ (cover) the path, and we couldn't see anything.",
+        answer: "covered",
+        explanation: "這裡在敘述過去某一刻發生的事情，「突然」把路蓋住 → cover → covered（規則動詞加 -ed）。"
+      },
+      // 35
+      {
+        type: "input",
+        text: "The guardians ___ (find) strange footprints near the Time fruit yesterday.",
+        answer: "found",
+        explanation: "yesterday 明確指向過去 → Past Simple。find → found 是不規則動詞。"
+      },
+      // 36
+      {
+        type: "input",
+        text: "The glowing tiles ___ (turn) red when the thief stepped on them.",
+        answer: "turned",
+        explanation: "整句描述「那一次」小偷踩上去時，地板變紅 → 過去的一次事件。turn → turned。"
+      },
+      // 37
+      {
+        type: "input",
+        text: "Error spotting:\n\"The swamp fog appear suddenly during the night.\"\nWhat is the correct form of \"appear\"?",
+        answer: "appeared",
+        explanation: "during the night 描述某一晚發生的事 → 過去事件。規則動詞 appear → appeared。"
+      },
+      // 38
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits guide us through the dark forest last evening.\"\nWhat is the correct form of \"guide\"?",
+        answer: "guided",
+        explanation: "last evening 表示昨晚，很明確的過去時間 → 必須用過去式。guide → guided。"
+      },
+      
+      // ===== 過去進行式 (Past Continuous) 題目：39-46 =====
+      // 39
+      {
+        type: "mcq",
+        text: "The swamp fog ___ slowly when the moon appeared.\n (Choose the best form.)",
+        options: ["was moving", "moved", "is moving"],
+        correctIndex: 0,
+        explanation: "當月亮出現的那一刻，霧正在慢慢移動 → 典型「過去進行 + 過去簡單」配法。"
+      },
+      // 40
+      {
+        type: "mcq",
+        text: "The spirits ___ along the river when we reached the Time Tree.\n (Choose the best form.)",
+        options: ["are walking", "were walking", "walked"],
+        correctIndex: 1,
+        explanation: "我們到達那一刻（reached），靈體正沿著河走 → 過去某時刻正在發生。主詞 spirits 複數 → were walking。"
+      },
+      // 41
+      {
+        type: "mcq",
+        text: "The bridges ___ violently while the storm was forming.\n (Choose the best form.)",
+        options: ["were shaking", "shook", "are shaking"],
+        correctIndex: 0,
+        explanation: "while 表示「當......的時候」，常搭配進行式。storm was forming，同時 bridges were shaking。"
+      },
+      // 42
+      {
+        type: "input",
+        text: "While we were crossing the swamp, the fog ___ (grow) thicker.",
+        answer: "was growing",
+        explanation: "while 引導過去進行中的背景：我們正在穿越，同時霧正在變厚。主詞 fog 單數 → was growing。"
+      },
+      // 43
+      {
+        type: "input",
+        text: "The guardians ___ (watch) the Time fruit when the lights suddenly went out.",
+        answer: "were watching",
+        explanation: "背景動作：were watching（正盯著），突然事件：went out。主詞 guardians 複數 → were watching。"
+      },
+      // 44
+      {
+        type: "input",
+        text: "The river ___ (flow) backward when the moon rose.",
+        answer: "was flowing",
+        explanation: "moon rose（過去某時刻），河流正倒流 → 強調畫面進行中。主詞 river 單數 → was flowing。"
+      },
+      // 45
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog was rise when we entered the forest.\"\nWhat is the correct form to replace \"was rise\"?",
+        answer: "was rising",
+        explanation: "過去進行式 = was/were + V-ing。rise 要改成 rising。"
+      },
+      // 46
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits were sings softly near the glowing stones.\"\nWhat is the correct form to replace \"were sings\"?",
+        answer: "were singing",
+        explanation: "過去進行式 → were + singing。sings 是第三人稱單數現在式，不可用在 were 後面。"
+      },
+      
+      // ===== 過去完成式 (Past Perfect) 題目：47-53 =====
+      // 47
+      {
+        type: "mcq",
+        text: "By the time we reached the swamp, the fog ___ away.\n (Choose the best form.)",
+        options: ["had already cleared", "already cleared", "clears"],
+        correctIndex: 0,
+        explanation: "By the time + 過去簡單 → 另一個更早發生的動作用過去完成式。had + 過去分詞 → had cleared。"
+      },
+      // 48
+      {
+        type: "mcq",
+        text: "The spirits ___ warnings before the thief entered the forest.\n (Choose the best form.)",
+        options: ["had sent", "sent", "were sending"],
+        correctIndex: 0,
+        explanation: "spirits 發送警告（較早）→ thief 進入（較晚）。比較早發生用 Past Perfect：had sent。"
+      },
+      // 49
+      {
+        type: "input",
+        text: "The wooden bridges ___ (break) before we arrived.",
+        answer: "had broken",
+        explanation: "我們到達之前，橋就已經斷了 → 橋斷得比較早。過去的過去 → had + broken。"
+      },
+      // 50
+      {
+        type: "input",
+        text: "The guardians ___ (not / finish) their patrol when the storm started.",
+        answer: "had not finished",
+        explanation: "暴風開始時，巡邏還沒完成 → 到那個過去時間點為止都還沒完成。had not finished。"
+      },
+      // 51
+      {
+        type: "input",
+        text: "The swamp fog ___ (disappear) by the time the sun rose.",
+        answer: "had disappeared",
+        explanation: "by the time 太陽升起，霧就已經不見了 → 霧消失比日出更早。用過去完成式：had disappeared。"
+      },
+      // 52
+      {
+        type: "input",
+        text: "Error spotting:\n\"The Time Tree had lose all its power before we reached it.\"\nWhat is the correct form of \"lose\"?",
+        answer: "lost",
+        explanation: "Past Perfect → had + past participle。lose 的過去分詞是 lost，不是 lose。"
+      },
+      // 53
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog had slowly rise before the guardians noticed it.\"\nWhat is the correct form of \"rise\"?",
+        answer: "risen",
+        explanation: "rise → rose → risen。過去完成式必須用 risen：had risen。"
+      },
+      
+      // ===== 過去完成進行式 (Past Perfect Continuous) 題目：54-60 =====
+      // 54
+      {
+        type: "mcq",
+        text: "The fog ___ for hours before the bridges collapsed.\n (Choose the best form.)",
+        options: ["had been growing", "grew", "was grow"],
+        correctIndex: 0,
+        explanation: "在橋塌掉之前，霧已經連續好幾個小時一直在變濃 → 過去完成進行式：had been growing。"
+      },
+      // 55
+      {
+        type: "mcq",
+        text: "The guardians ___ for the thief long before they found his footprints.\n (Choose the best form.)",
+        options: ["had been searching", "searched", "were search"],
+        correctIndex: 0,
+        explanation: "找到腳印之前已經找了很久 → 過去某時之前持續進行 → had been searching。"
+      },
+      // 56
+      {
+        type: "input",
+        text: "The swamp water ___ (rise) for days before the forest flooded.",
+        answer: "had been rising",
+        explanation: "森林淹水前，水已經連續上升好幾天 → 持續 + 過去的過去 → had been rising。"
+      },
+      // 57
+      {
+        type: "input",
+        text: "The spirits ___ (watch) the Time fruit for hours before it finally glowed.",
+        answer: "had been watching",
+        explanation: "Time fruit 發光前，靈體已經持續看了好幾個小時。had been watching。"
+      },
+      // 58
+      {
+        type: "input",
+        text: "The fog ___ (move) slowly toward the bridges before we saw it.",
+        answer: "had been moving",
+        explanation: "在我們看到它之前，它已經慢慢朝橋移動了一段時間 → had been moving。"
+      },
+      // 59
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog had been rise all morning.\"\nWhat is the correct form to replace \"rise\"?",
+        answer: "rising",
+        explanation: "完成進行式結構為 had been + V-ing → rising（整句應為 had been rising）。"
+      },
+      // 60
+      {
+        type: "input",
+        text: "Error spotting:\n\"The guardians had been watch the forest for hours.\"\nWhat is the correct form to replace \"watch\"?",
+        answer: "watching",
+        explanation: "完成進行式 = had been + V-ing。watch 要變成 watching。"
+      },
+      
+      // ===== 額外過去簡單式題目：61-68 =====
+      // 61
+      {
+        type: "mcq",
+        text: "The swamp guardians ___ the thief two days ago.\n (Choose the best form.)",
+        options: ["caught", "catch", "catches"],
+        correctIndex: 0,
+        explanation: "two days ago 是明確的過去時間 → 用過去簡單式。catch → caught。"
+      },
+      // 62
+      {
+        type: "mcq",
+        text: "The Time fruit ___ from the tree last week.\n (Choose the best form.)",
+        options: ["falls", "fell", "fallen"],
+        correctIndex: 1,
+        explanation: "last week 表示上週 → 過去簡單式。fall → fell。"
+      },
+      // 63
+      {
+        type: "input",
+        text: "The wooden paths ___ (change) direction suddenly yesterday.",
+        answer: "changed",
+        explanation: "yesterday 表示過去 → 過去簡單式。change → changed。"
+      },
+      // 64
+      {
+        type: "input",
+        text: "The spirits ___ (sing) a warning song when danger approached.",
+        answer: "sang",
+        explanation: "描述過去某次事件 → 過去簡單式。sing → sang。"
+      },
+      // 65
+      {
+        type: "input",
+        text: "The swamp water ___ (rise) quickly during the storm.",
+        answer: "rose",
+        explanation: "during the storm 描述過去事件 → 過去簡單式。rise → rose。"
+      },
+      // 66
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog hide the path last night.\"\nWhat is the correct form of \"hide\"?",
+        answer: "hid",
+        explanation: "last night 是過去時間 → 需要過去式。hide → hid。"
+      },
+      // 67
+      {
+        type: "input",
+        text: "Error spotting:\n\"The guardians see the thief near the Time Tree yesterday.\"\nWhat is the correct form of \"see\"?",
+        answer: "saw",
+        explanation: "yesterday 表示過去 → 過去簡單式。see → saw。"
+      },
+      // 68
+      {
+        type: "input",
+        text: "The Time Tree ___ (shine) brightly before it lost power.",
+        answer: "shone",
+        explanation: "before 引導的是過去事件 → 用過去簡單式。shine → shone。"
+      },
+      
+      // ===== 額外過去進行式題目：69-76 =====
+      // 69
+      {
+        type: "mcq",
+        text: "The swamp creatures ___ strange noises all night.\n (Choose the best form.)",
+        options: ["were making", "made", "makes"],
+        correctIndex: 0,
+        explanation: "all night 表示整晚持續 → 過去進行式強調持續性。were making。"
+      },
+      // 70
+      {
+        type: "mcq",
+        text: "The fog ___ when the travelers entered the forest.\n (Choose the best form.)",
+        options: ["was thickening", "thickened", "thickens"],
+        correctIndex: 0,
+        explanation: "when 引導背景動作 → 旅人進入時，霧正在變厚。was thickening。"
+      },
+      // 71
+      {
+        type: "input",
+        text: "The wooden bridge ___ (creak) loudly while we crossed it.",
+        answer: "was creaking",
+        explanation: "while 表示「當......時」→ 過去進行式。was creaking。"
+      },
+      // 72
+      {
+        type: "input",
+        text: "The Time Tree ___ (glow) softly when the moon appeared.",
+        answer: "was glowing",
+        explanation: "月亮出現時，樹正在發光 → 背景動作用過去進行式。was glowing。"
+      },
+      // 73
+      {
+        type: "input",
+        text: "The spirits ___ (whisper) secrets while the guardians slept.",
+        answer: "were whispering",
+        explanation: "守護者睡覺時，靈體正在低語 → 複數主詞，過去進行式。were whispering。"
+      },
+      // 74
+      {
+        type: "input",
+        text: "Error spotting:\n\"The swamp water was rise rapidly.\"\nWhat is the correct form to replace \"was rise\"?",
+        answer: "was rising",
+        explanation: "過去進行式 = was/were + V-ing。rise → rising。"
+      },
+      // 75
+      {
+        type: "input",
+        text: "Error spotting:\n\"The bridges were shake during the earthquake.\"\nWhat is the correct form to replace \"were shake\"?",
+        answer: "were shaking",
+        explanation: "過去進行式 → were + shaking。shake 要用 V-ing 形式。"
+      },
+      // 76
+      {
+        type: "input",
+        text: "The guardians ___ (patrol) the forest when they heard a scream.",
+        answer: "were patrolling",
+        explanation: "聽到尖叫時，他們正在巡邏 → 過去進行式。were patrolling。"
+      },
+      
+      // ===== 額外過去完成式題目：77-83 =====
+      // 77
+      {
+        type: "mcq",
+        text: "The thief ___ before the guardians arrived.\n (Choose the best form.)",
+        options: ["had escaped", "escaped", "was escaping"],
+        correctIndex: 0,
+        explanation: "逃跑（較早）→ 守護者到達（較晚）。較早的動作用過去完成式。had escaped。"
+      },
+      // 78
+      {
+        type: "mcq",
+        text: "The fog ___ the entire forest by the time we woke up.\n (Choose the best form.)",
+        options: ["had covered", "covered", "was covering"],
+        correctIndex: 0,
+        explanation: "by the time 我們醒來，霧已經覆蓋整片森林 → 過去完成式。had covered。"
+      },
+      // 79
+      {
+        type: "input",
+        text: "The Time fruit ___ (fall) before the guardians could catch it.",
+        answer: "had fallen",
+        explanation: "果實掉落（較早）→ 守護者來不及接住（較晚）。had fallen。"
+      },
+      // 80
+      {
+        type: "input",
+        text: "The spirits ___ (already / warn) us before the danger appeared.",
+        answer: "had already warned",
+        explanation: "警告（較早）→ 危險出現（較晚）。過去完成式：had already warned。"
+      },
+      // 81
+      {
+        type: "input",
+        text: "The swamp ___ (change) completely before we returned.",
+        answer: "had changed",
+        explanation: "我們回來前，沼澤已經完全改變 → 過去完成式。had changed。"
+      },
+      // 82
+      {
+        type: "input",
+        text: "Error spotting:\n\"The bridge had collapse before we arrived.\"\nWhat is the correct form of \"collapse\"?",
+        answer: "collapsed",
+        explanation: "過去完成式 = had + 過去分詞。collapse → collapsed。"
+      },
+      // 83
+      {
+        type: "input",
+        text: "Error spotting:\n\"The guardians had went to search for the thief.\"\nWhat is the correct form of \"went\"?",
+        answer: "gone",
+        explanation: "go 的過去分詞是 gone，不是 went。had gone。"
+      },
+      
+      // ===== 額外過去完成進行式題目：84-90 =====
+      // 84
+      {
+        type: "mcq",
+        text: "The swamp ___ darker for weeks before the guardians noticed.\n (Choose the best form.)",
+        options: ["had been getting", "got", "was getting"],
+        correctIndex: 0,
+        explanation: "守護者注意到之前，已經持續變暗好幾週 → 過去完成進行式。had been getting。"
+      },
+      // 85
+      {
+        type: "mcq",
+        text: "The fog ___ for days before it finally cleared.\n (Choose the best form.)",
+        options: ["had been spreading", "spread", "was spreading"],
+        correctIndex: 0,
+        explanation: "霧消散前已經蔓延好幾天 → 強調持續到過去某時。had been spreading。"
+      },
+      // 86
+      {
+        type: "input",
+        text: "The Time Tree ___ (lose) power for months before it died.",
+        answer: "had been losing",
+        explanation: "樹死亡前已經持續失去力量好幾個月 → 過去完成進行式。had been losing。"
+      },
+      // 87
+      {
+        type: "input",
+        text: "The guardians ___ (track) the thief for hours before they caught him.",
+        answer: "had been tracking",
+        explanation: "抓到之前已經追蹤好幾個小時 → 過去完成進行式。had been tracking。"
+      },
+      // 88
+      {
+        type: "input",
+        text: "The swamp creatures ___ (hide) for a long time before they appeared.",
+        answer: "had been hiding",
+        explanation: "出現前已經躲藏很長時間 → 過去完成進行式。had been hiding。"
+      },
+      // 89
+      {
+        type: "input",
+        text: "Error spotting:\n\"The fog had been cover the path for hours.\"\nWhat is the correct form to replace \"cover\"?",
+        answer: "covering",
+        explanation: "過去完成進行式 = had been + V-ing。cover → covering。"
+      },
+      // 90
+      {
+        type: "input",
+        text: "Error spotting:\n\"The spirits had been wait near the Time Tree.\"\nWhat is the correct form to replace \"wait\"?",
+        answer: "waiting",
+        explanation: "過去完成進行式需用 V-ing。wait → waiting。had been waiting。"
       }
     ];
 
@@ -223,7 +796,6 @@
     let currentIndex = null;
     let hasAnswered = false;
 
-    // 從 localStorage 讀取已出過的題目 index
     function loadUsedIndexes() {
       try {
         const raw = localStorage.getItem("time_swamp_used_indexes_v2");
@@ -236,12 +808,10 @@
       }
     }
 
-    // 寫回 localStorage
     function saveUsedIndexes(arr) {
       localStorage.setItem("time_swamp_used_indexes_v2", JSON.stringify(arr));
     }
 
-    // 挑一題「沒出過」的 index；如果都出完，就清空紀錄重新開始
     function pickQuestionIndex() {
       let used = loadUsedIndexes();
       if (used.length >= questions.length) {
@@ -276,14 +846,12 @@
 
       questionTextEl.textContent = currentQuestion.text;
 
-      // 重置 UI
       optionsFormEl.innerHTML = "";
       textAnswerEl.value = "";
       textAnswerEl.style.display = "none";
       inputLabelEl.textContent = "";
 
       if (currentQuestion.type === "mcq") {
-        // 顯示選項
         currentQuestion.options.forEach((opt, idx) => {
           const div = document.createElement("div");
           div.className = "option";
@@ -303,7 +871,6 @@
           optionsFormEl.appendChild(div);
         });
       } else if (currentQuestion.type === "input") {
-        // 顯示填空框
         inputLabelEl.textContent = "Type your answer here:";
         textAnswerEl.style.display = "block";
       }
@@ -364,7 +931,6 @@
 
     checkBtn.addEventListener("click", checkAnswer);
 
-    // 初始載入
     loadQuestion();
   </script>
 </body>
