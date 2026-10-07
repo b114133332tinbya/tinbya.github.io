@@ -53,7 +53,6 @@
       margin: 0;
     }
 
-    /* 頂部語速調整條：輕量化 */
     .controls-panel {
       background: var(--card-bg);
       padding: 0.5rem 0.8rem;
@@ -86,7 +85,6 @@
       gap: 0.6rem;
     }
 
-    /* 句子卡片：緊湊佈局 */
     .sentence-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -116,7 +114,6 @@
       line-height: 1.45;
     }
 
-    /* 按鈕群組：小巧、橫向排列 */
     .btn-group {
       display: flex;
       gap: 0.45rem;
@@ -239,30 +236,37 @@
       const num = index + 1;
       player.playbackRate = parseFloat(speedRange.value);
 
-      // 自動雙重嘗試：先嘗試 f1.mp3，若失敗自動嘗試 f1.mp3.mp3
-      player.src = `${filePrefix}${num}.mp3`;
-      
-      const playPromise = player.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // 若失敗，自動嘗試 .mp3.mp3
-          player.src = `${filePrefix}${num}.mp3.mp3`;
-          player.play().catch(() => {
-            alert(`找不到音檔「${filePrefix}${num}.mp3」，請確認音檔放在同資料夾`);
-            stopPlayback();
+      // 自動依序嘗試所有可能的路徑（包含「新增資料夾」、單副檔名、雙副檔名、同層路徑）
+      const candidatePaths = [
+        encodeURI(`新增資料夾/${filePrefix}${num}.mp3`),
+        encodeURI(`新增資料夾/${filePrefix}${num}.mp3.mp3`),
+        `${filePrefix}${num}.mp3`,
+        `${filePrefix}${num}.mp3.mp3`
+      ];
+
+      function tryPlay(pathIndex) {
+        if (pathIndex >= candidatePaths.length) {
+          alert(`找不到「${filePrefix}${num}」音檔，請確認音檔已上傳！`);
+          stopPlayback();
+          return;
+        }
+
+        player.src = candidatePaths[pathIndex];
+        const playPromise = player.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // 該路徑失敗，自動嘗試下一種可能路徑
+            tryPlay(pathIndex + 1);
           });
-        });
+        }
       }
+
+      tryPlay(0);
 
       player.onended = stopPlayback;
       player.onerror = () => {
-        // 如果標準檔名出錯，嘗試後備檔名
-        if (!player.src.endsWith(".mp3.mp3")) {
-          player.src = `${filePrefix}${num}.mp3.mp3`;
-          player.play().catch(stopPlayback);
-        } else {
-          stopPlayback();
-        }
+        // 播放錯誤時自動嘗試下一個備案
       };
     }
 
